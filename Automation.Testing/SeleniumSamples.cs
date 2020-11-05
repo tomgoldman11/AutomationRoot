@@ -4,6 +4,8 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using Automation.Extensions.Components;
+using Automation.Extensions.Contracts;
 
 namespace Automation.Testing
 {
@@ -44,6 +46,16 @@ namespace Automation.Testing
 
             driver = new InternetExplorerDriver(); // internet explorer driver check
             driver.Navigate().GoToUrl("https://google.com");
+            driver.Dispose();
+        }
+        [TestMethod]
+        public void WebDriverFactorySample()
+        {
+            var driver = new WebDriverFactory(new DriverParams { Driver = "chrome", Binaries = @"C:\web-drivers" }).Get();
+            driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl("https://gravitymvctestapplication.azurewebsites.net");
+            driver.FindElement(By.XPath("//a[.='Students']")).Click();
+            Thread.Sleep(2000);
             driver.Dispose();
         }
     }

@@ -4,6 +4,7 @@
     <TargetFrameworks>net47;net471;net472;net461</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,5 +20,9 @@
     </PackageReference>
     <PackageReference Include="Selenium.Support" Version="3.141.0" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="Pack">
+    <Exec Command="nuget init &quot;$(ProjectDir)bin\$(Configuration)&quot; &quot;C:\nuget-artifactory\packages&quot;" />
+  </Target>
 
 </Project>

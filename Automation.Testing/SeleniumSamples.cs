@@ -32,7 +32,7 @@ namespace Automation.Testing
             Thread.Sleep(2000);
             driver.Dispose();
         }
-
+        
         [TestMethod]
         public void SelectElementSamples()
         {

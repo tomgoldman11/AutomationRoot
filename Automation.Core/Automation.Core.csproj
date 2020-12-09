@@ -4,8 +4,4 @@
     <TargetFrameworks>netcoreapp3.1;net47;net471;net472;net461</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Testing\" />
-  </ItemGroup>
-
 </Project>

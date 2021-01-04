@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Automation.Core.Components
 {
-    interface IFluent
+    public interface IFluent
     {
         T ChangeContext<T>();
         T ChangeContext<T>(ILogger logger);
-        T ChnageContext<T>(string application);
-        T ChnageContext<T>(string application, ILogger logger);
+        T ChangeContext<T>(string application);
+        T ChangeContext<T>(string application, ILogger logger);
     }
 }

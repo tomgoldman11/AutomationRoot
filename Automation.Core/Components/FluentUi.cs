@@ -4,11 +4,11 @@ using System;
 
 namespace Automation.Core.Components
 {
-    public abstract class FluentUi : IFluent // no need to create an instance of this class
+    public class FluentUi : IFluent // no need to create an instance of this class
     {
-        protected FluentUi(IWebDriver driver) : this(driver, new TraceLogger()) { }  // calls C'tor below
+        public FluentUi(IWebDriver driver) : this(driver, new TraceLogger()) { }  // calls C'tor below
 
-        protected FluentUi(IWebDriver driver, ILogger logger)
+        public FluentUi(IWebDriver driver, ILogger logger)
         {
             Driver = driver;
             Logger = logger;
@@ -16,8 +16,7 @@ namespace Automation.Core.Components
 
         public IWebDriver Driver { get; }
         public ILogger Logger { get; }
-
-        public T ChangeContext<T>() 
+        public T ChangeContext<T>()
         {
             var instance = Create<T>(null);
             Logger.Debug($"instance of [{GetType()?.FullName}] created");
@@ -31,7 +30,8 @@ namespace Automation.Core.Components
             return instance;
         }
 
-        public T ChnageContext<T>(string application, ILogger logger)
+
+        public T ChangeContext<T>(string application, ILogger logger)
         {
             Driver.Navigate().GoToUrl(application);
             Driver.Manage().Window.Maximize();
@@ -40,7 +40,7 @@ namespace Automation.Core.Components
             return instance;
         }
 
-        public T ChnageContext<T>(string application)
+        public T ChangeContext<T>(string application)
         {
             Driver.Navigate().GoToUrl(application);
             Driver.Manage().Window.Maximize();

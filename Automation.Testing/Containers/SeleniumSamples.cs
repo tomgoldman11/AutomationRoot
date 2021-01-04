@@ -9,10 +9,10 @@ using Automation.Extensions.Contracts;
 using OpenQA.Selenium.Edge;
 using System.Drawing;
 
-namespace Automation.Testing
+namespace Automation.Testing.Containers
 {
     [TestClass]
-    public class SeleniumSamples
+    public class SeleniumSampless
     {
         [TestMethod]
         public void WebDriverSamples()

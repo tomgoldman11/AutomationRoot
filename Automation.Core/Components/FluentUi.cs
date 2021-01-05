@@ -4,7 +4,7 @@ using System;
 
 namespace Automation.Core.Components
 {
-    public class FluentUi : IFluent // no need to create an instance of this class
+    public class FluentUi : IFluent 
     {
         public FluentUi(IWebDriver driver) : this(driver, new TraceLogger()) { }  // calls C'tor below
 

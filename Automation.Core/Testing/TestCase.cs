@@ -1,5 +1,8 @@
 ﻿using Automation.Core.Logging;
+using Automation.Extensions.Components;
+using Automation.Extensions.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,6 +30,7 @@ namespace Automation.Core.Testing
         {
             for (int i = 0; i < attempts; i++)
             {
+                Driver = Get();
                 try
                 {
                     Actual = AutomationTest(testParams);
@@ -49,7 +53,12 @@ namespace Automation.Core.Testing
                 catch (Exception ex)
                 {
                     logger.Debug(ex, ex.Message);
- 
+                    break;
+                }
+                finally
+                {
+                    Driver?.Close();  // ?. Operator: accessing Driver only if its not NULL
+                    Driver?.Dispose();
                 }
             }
             return this;
@@ -57,6 +66,8 @@ namespace Automation.Core.Testing
 
         //Properties
         public bool Actual { get; private set; }
+
+        public IWebDriver Driver { get; private set; }
 
         //Configurations
         public TestCase WithTestParams(IDictionary<string, object> testParams)
@@ -74,6 +85,23 @@ namespace Automation.Core.Testing
             this.logger = logger;
             return this;
         }
+
+        //Setup
+        private IWebDriver Get()
+        {
+            //Default
+            var driverParams = new DriverParams { Binaries = ".", Driver = "CHROME" };
+
+            //Change Driver if exists
+            if(testParams.ContainsKey("driver") == true)
+            {
+                driverParams.Driver = $"{testParams["driver"]}";
+            }
+
+            //Create Driver
+            return new WebDriverFactory(driverParams).Get();
+        }
+
     }
 }
  

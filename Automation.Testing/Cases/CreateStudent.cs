@@ -1,9 +1,5 @@
-﻿using Automation.Api.Pages;
-using Automation.Core.Components;
+﻿using Automation.Core.Components;
 using Automation.Core.Testing;
-using Automation.Core.Logging;
-using Automation.Extensions.Components;
-using Automation.Extensions.Contracts;
 using Automation.Framework.Ui.Pages;
 using System;
 using System.Collections.Generic;
@@ -12,19 +8,25 @@ using System.Text;
 
 namespace Automation.Testing.Cases
 {
-    public class SearchStudents : TestCase
+    public class CreateStudent : TestCase
     {
         public override bool AutomationTest(IDictionary<string, object> testParams) // DataDriven ( Get params from outside is a good principle, very abstractive )
         {
             //students to find
-            var keyword = $"{testParams["keyword"]}";
+            var firstName = $"{testParams["firstName"]}";
+            var lastName = $"{testParams["lastName"]}";
 
             //perform test case
             return new FluentUi(Driver).ChangeContext<StudentsUi>($"{testParams["application"]}") // $ operator tranform the object into string.
-                                       .FindByName(keyword) 
+                                       .Create()
+                                       .FirstName(firstName)
+                                       .LastName(lastName)
+                                       .EnrollmentDate(DateTime.Now)
+                                       .Create()
+                                       .FindByName(firstName)
                                        .Students()
-                                       .All(s => s.FirstName().Equals(keyword) || s.LastName().Equals(keyword));
-         
+                                       .Any();
+
         }
     }
 }

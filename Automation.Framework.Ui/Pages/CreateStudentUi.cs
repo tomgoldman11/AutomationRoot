@@ -1,6 +1,8 @@
 ﻿using Automation.Api.Pages;
 using Automation.Core.Components;
 using Automation.Core.Logging;
+using Automation.Extensions.Components;
+using Automation.Framework.Ui.Components;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -27,7 +29,8 @@ namespace Automation.Framework.Ui.Pages
 
         public IStudents Create()
         {
-            throw new NotImplementedException();
+            Driver.GetEnabledElement(By.XPath("//input[@type='submit']")).Click();
+            return new StudentsUi(Driver);  // returns back to the students page
         }
 
         public DateTime EnrollmentDate()
@@ -35,9 +38,11 @@ namespace Automation.Framework.Ui.Pages
             throw new NotImplementedException();
         }
 
-        public ICreateStudent EnrollmentDate(DateTime enrollmentDate)
+        public ICreateStudent EnrollmentDate(DateTime enrollmentDate) // different implementation in different browser of inserting the DateTime, we can use JavaScript to bypass it.
         {
-            throw new NotImplementedException();
+            var script = $"document.getElementById('EnrollmentDate').setAttribute('value', '{enrollmentDate.ToString("yyyy-MM-dd")}');";
+            ((IJavaScriptExecutor)Driver).ExecuteScript(script);
+            return this;
         }
 
         public string FirstName()
@@ -47,7 +52,8 @@ namespace Automation.Framework.Ui.Pages
 
         public ICreateStudent FirstName(string firstName)
         {
-            throw new NotImplementedException();
+            Driver.GetEnabledElement(By.XPath("//input[@id='FirstMidName']")).SendKeys(firstName);
+            return this;
         }
 
         public string LastName()
@@ -57,7 +63,8 @@ namespace Automation.Framework.Ui.Pages
 
         public ICreateStudent LastName(string lastName)
         {
-            throw new NotImplementedException();
+            Driver.GetEnabledElement(By.XPath("//input[@id='LastName']")).SendKeys(lastName);
+            return this;
         }
     }
 }

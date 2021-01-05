@@ -2,9 +2,12 @@
 using Automation.Api.Pages;
 using Automation.Core.Components;
 using Automation.Core.Logging;
+using Automation.Extensions.Components;
+using Automation.Framework.Ui.Components;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Automation.Framework.Ui.Pages
@@ -23,7 +26,8 @@ namespace Automation.Framework.Ui.Pages
 
         public ICreateStudent Create()
         {
-            throw new NotImplementedException();
+            Driver.GetEnabledElement(By.XPath("//a[contains(@href,'/Student/Create')]")).Click();
+            return new CreateStudentUi(Driver);
         }
 
         public int CurrentPage()
@@ -33,7 +37,9 @@ namespace Automation.Framework.Ui.Pages
 
         public IStudents FindByName(string name)
         {
-            throw new NotImplementedException();
+            Driver.GetEnabledElement(By.XPath("//input[@id='SearchString']")).SendKeys(name);
+            Driver.SubmitForm(0);
+            return this;
         }
 
         public T Menu<T>(string menuName)
@@ -58,7 +64,8 @@ namespace Automation.Framework.Ui.Pages
 
         public IEnumerable<IStudent> Students()
         {
-            throw new NotImplementedException();
+            var students = Driver.GetElements(By.XPath("//tbody/tr"));
+            return students.Select(s => new StudentUi(Driver, s)); // for each element in students page, select the entire tablerow (IWebElement)
         }
     }
 }

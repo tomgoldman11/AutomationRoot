@@ -37,5 +37,19 @@ namespace Automation.Testing.Containers
             //Assert results
             Assert.IsTrue(actual);
         }
+
+        [DataTestMethod]
+        [DataRow("{'driver':'CHROME','keyword':'Alexander','application':'https://gravitymvctestapplication.azurewebsites.net/Student'}")]
+        public void StudentDetailsUiTest(string testParams)
+        {
+            //Generate Test Parameters
+            var parameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(testParams);
+
+            //Execute with parameters
+            var actual = new StudentDetails().WithTestParams(parameters).Execute().Actual;
+
+            //Assert results
+            Assert.IsTrue(actual);
+        }
     }
 }

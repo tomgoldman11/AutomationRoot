@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Automation.Api.Components
 {
-    public interface IEntityActions
+    public interface IEdit<T> //Generic Interface
     {
-        object Edit();
-        object Details();
-        object Delete();
+        T Edit();
     }
 }
